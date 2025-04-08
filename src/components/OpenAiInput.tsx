@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { UserMessage } from './UserMessage';
 import { AssistantMessage } from './AssistantMessage';
 import { sendChatMessage } from '@/utils/api';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 type Message = {
   speaker: 'user' | 'assistant';
@@ -11,7 +12,9 @@ type Message = {
 };
 
 export function OpenAiInput() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(
+    useLocalStorage<Message[]>('messages') || []
+  );
   const [inputValue, setInputValue] = useState('What is 3 plus 3?');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,11 +27,17 @@ export function OpenAiInput() {
 
       try {
         const assistantResponse = await sendChatMessage(inputValue.trim());
-        setMessages([
+        // Store the updated messages in localStorage
+        const updatedMessages = [
           ...messages,
           { speaker: 'user', message: inputValue.trim() },
           { speaker: 'assistant', message: assistantResponse },
-        ]);
+        ];
+        window.localStorage.setItem(
+          'messages',
+          JSON.stringify(updatedMessages)
+        );
+        setMessages(updatedMessages as Message[]);
       } catch (e) {
         console.error('Error:', e);
         setError('Sorry, there was an error processing your request.');
@@ -100,11 +109,12 @@ export function OpenAiInput() {
           <button
             type="submit"
             disabled={!inputValue.trim()}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 transition-colors ${
-              inputValue.trim()
-                ? 'bg-[#7C3AED] hover:bg-[#6D28D9]'
-                : 'bg-gray-600 cursor-not-allowed'
-            }`}
+            className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 transition-colors
+             ${
+               inputValue.trim()
+                 ? 'bg-[#7C3AED] hover:bg-[#6D28D9] cursor-pointer'
+                 : 'bg-gray-600 cursor-not-allowed'
+             }`}
           >
             <svg
               width="24"
