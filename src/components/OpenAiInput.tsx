@@ -15,7 +15,7 @@ export function OpenAiInput() {
   const [messages, setMessages] = useState<Message[]>(
     useLocalStorage<Message[]>('messages') || []
   );
-  const [inputValue, setInputValue] = useState('What is 3 plus 3?');
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,7 +56,7 @@ export function OpenAiInput() {
       </div>
 
       {/* Messages list */}
-      <div className="flex flex-col gap-4 mb-4 min-h-[300px]">
+      <div className="flex flex-col gap-4 mb-4 min-h-[300px] max-h-[600px] overflow-y-auto pr-2">
         {messages.map((message) =>
           message.speaker === 'user' ? (
             <UserMessage message={message.message} key={message.message} />
