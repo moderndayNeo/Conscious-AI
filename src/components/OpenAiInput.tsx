@@ -53,7 +53,29 @@ export function OpenAiInput() {
 
       {/* Chat input */}
       <div className="chat-input">
-        <p className="text-purple-400">Ask anything you want!</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const input = e.currentTarget.elements.namedItem(
+              'message'
+            ) as HTMLInputElement;
+            if (input.value.trim()) {
+              setMessages([
+                ...messages,
+                { speaker: 'user', message: input.value.trim() },
+              ]);
+              input.value = '';
+            }
+          }}
+          className="relative"
+        >
+          <input
+            type="text"
+            name="message"
+            placeholder="How else can I help?"
+            className="w-full bg-[#1E1F20] text-white p-4 rounded-xl border border-[#464748] focus:outline-none focus:border-purple-500 placeholder-gray-500"
+          />
+        </form>
       </div>
     </div>
   );
