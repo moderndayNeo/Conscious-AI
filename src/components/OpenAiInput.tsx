@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { UserMessage } from './UserMessage';
 import { AssistantMessage } from './AssistantMessage';
+import { sendChatMessage } from '@/utils/api';
 
 type Message = {
   speaker: 'user' | 'assistant';
@@ -32,15 +33,29 @@ const dummyMessages: Message[] = [
 
 export function OpenAiInput() {
   const [messages, setMessages] = useState<Message[]>(dummyMessages);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('What is 3 plus 3?');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      setMessages([
-        ...messages,
-        { speaker: 'user', message: inputValue.trim() },
-      ]);
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const assistantResponse = await sendChatMessage(inputValue.trim());
+        setMessages([
+          ...messages,
+          { speaker: 'user', message: inputValue.trim() },
+          { speaker: 'assistant', message: assistantResponse },
+        ]);
+      } catch (e) {
+        console.error('Error:', e);
+        setError('Sorry, there was an error processing your request.');
+      }
+
+      setIsLoading(false);
       setInputValue('');
     }
   };
@@ -50,15 +65,6 @@ export function OpenAiInput() {
       {/* Header */}
       <div className="border-b-2 border-[#464748] mb-4 p-4">
         <p className="text-white font-bold">Ask OpenAI</p>
-        <button
-          className="absolute top-2 right-2 text-white bg-red-500 hover:bg-red-700 font-bold py-1 px-2 rounded-full"
-          onClick={() => {
-            // Add functionality to close the component or clear the messages
-            setMessages([]);
-          }}
-        >
-          X
-        </button>
       </div>
 
       {/* Messages list */}
@@ -69,6 +75,31 @@ export function OpenAiInput() {
           ) : (
             <AssistantMessage message={message.message} key={message.message} />
           )
+        )}
+        {error && <div className="text-red-500 self-center">{error}</div>}
+        {isLoading && (
+          <div className="self-center">
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          </div>
         )}
       </div>
 
