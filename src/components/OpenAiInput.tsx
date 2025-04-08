@@ -10,29 +10,8 @@ type Message = {
   message: string;
 };
 
-const dummyMessages: Message[] = [
-  {
-    speaker: 'user',
-    message: 'List three brazilian jiu jitsu submissions',
-  },
-  {
-    speaker: 'assistant',
-    message:
-      'Three brazilian jiu-jitsu submissions are: Guillotine Choke, Bow & Arrow Choke, and the Armbar from mount!',
-  },
-  {
-    speaker: 'user',
-    message: 'which of these is most effective in NoGi?',
-  },
-  {
-    speaker: 'assistant',
-    message:
-      'The Guillotine Choke is the most effective submission in NoGi. It is a devastating chokehold that can be used to finish the fight quickly.',
-  },
-];
-
 export function OpenAiInput() {
-  const [messages, setMessages] = useState<Message[]>(dummyMessages);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('What is 3 plus 3?');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,14 +40,14 @@ export function OpenAiInput() {
   };
 
   return (
-    <div className="bg-[#252627] p-4 rounded-2xl border-2 border-[#464748] ">
+    <div className="bg-[#252627] p-4 rounded-2xl border-2 border-[#464748] min-w-[500px]">
       {/* Header */}
       <div className="border-b-2 border-[#464748] mb-4 p-4">
-        <p className="text-white font-bold">Ask OpenAI</p>
+        <p className="text-white font-bold">Ask Spiritual AI</p>
       </div>
 
       {/* Messages list */}
-      <div className="flex flex-col gap-4 mb-4">
+      <div className="flex flex-col gap-4 mb-4 min-h-[300px]">
         {messages.map((message) =>
           message.speaker === 'user' ? (
             <UserMessage message={message.message} key={message.message} />
@@ -111,7 +90,11 @@ export function OpenAiInput() {
             name="message"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="How else can I help?"
+            placeholder={
+              messages.length === 0
+                ? 'Ask me any spiritual question...'
+                : 'How else can I help?'
+            }
             className="w-full bg-[#1E1F20] text-white p-4 pr-14 rounded-xl border border-[#464748] focus:outline-none focus:border-purple-500 placeholder-gray-500"
           />
           <button
