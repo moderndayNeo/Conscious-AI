@@ -1,30 +1,30 @@
-import { NextResponse } from 'next/server';
-import OpenAI from 'openai';
+import { NextResponse } from "next/server";
+import OpenAI from "openai";
 
 // Initialize OpenAI client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+	apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(request: Request) {
-  try {
-    const { message } = await request.json();
+	try {
+		const { message } = await request.json();
 
-    if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
-    }
+		if (!message) {
+			return NextResponse.json(
+				{ error: "Message is required" },
+				{ status: 400 },
+			);
+		}
 
-    const completion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: 'developer',
-          content: [
-            {
-              type: 'text',
-              text: `
+		const completion = await openai.chat.completions.create({
+			messages: [
+				{
+					role: "developer",
+					content: [
+						{
+							type: "text",
+							text: `
                   You are a spiritual guide. You spent the last 20 years of your life studying mindfulness and meditation.
 You draw your wisdom from the following sources:
 'The Mind Illuminated' by John Yates (Culadasa).
@@ -44,22 +44,22 @@ There, I give you what you seek."
 
 Replace "[insert topic here]" with a short, natural-sounding summary of the user's actual question or topic.
 Never repeat the literal phrase “[insert topic here]” or output it verbatim. Always substitute it with a relevant phrase based on what the user asked. Stay kind, warm, and centered in spirit at all times.`,
-            },
-          ],
-        },
-        { role: 'user', content: message },
-      ],
-      model: 'gpt-4o-mini',
-    });
+						},
+					],
+				},
+				{ role: "user", content: message },
+			],
+			model: "gpt-4o-mini",
+		});
 
-    return NextResponse.json({
-      response: completion.choices[0].message.content,
-    });
-  } catch (error) {
-    console.error('Error processing chat request:', error);
-    return NextResponse.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    );
-  }
+		return NextResponse.json({
+			response: completion.choices[0].message.content,
+		});
+	} catch (error) {
+		console.error("Error processing chat request:", error);
+		return NextResponse.json(
+			{ error: "Failed to process request" },
+			{ status: 500 },
+		);
+	}
 }

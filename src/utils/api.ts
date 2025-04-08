@@ -4,24 +4,24 @@
  * @returns The AI's response
  */
 export async function sendChatMessage(message: string): Promise<string> {
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message }),
-    });
+	try {
+		const response = await fetch("/api/chat", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ message }),
+		});
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to send message');
-    }
+		if (!response.ok) {
+			const error = await response.json();
+			throw new Error(error.error || "Failed to send message");
+		}
 
-    const data = await response.json();
-    return data.response;
-  } catch (error) {
-    console.error('Error sending chat message:', error);
-    throw error;
-  }
+		const data = await response.json();
+		return data.response;
+	} catch (error) {
+		console.error("Error sending chat message:", error);
+		throw error;
+	}
 }
