@@ -32,9 +32,15 @@ export default function RootLayout({
 				<ParticlesBackground />
 
 				<Image
+					src="/assets/buddha-on-a-lake-portrait.png"
+					alt="Buddha on a lake"
+					className="w-full fixed -z-20 sm:hidden"
+					fill
+				/>
+				<Image
 					src="/assets/buddha-on-a-lake-landscape.png"
 					alt="Buddha on a lake"
-					className="w-full fixed -z-20"
+					className="w-full fixed -z-20 hidden sm:block"
 					fill
 				/>
 
