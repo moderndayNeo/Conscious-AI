@@ -276,7 +276,7 @@ const ParticlesBackground = () => {
 						},
 						random: false,
 						size: false,
-						speed: 2,
+						speed: 0.7,
 						spin: {
 							acceleration: 0,
 							enable: false,

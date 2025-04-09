@@ -13,6 +13,7 @@ type Message = {
 
 export function OpenAiInput() {
 	const [messages, setMessages] = useState<Message[]>(
+		// [],
 		useLocalStorage<Message[]>("messages") || [],
 	);
 	const [inputValue, setInputValue] = useState("");
@@ -49,14 +50,14 @@ export function OpenAiInput() {
 	};
 
 	return (
-		<div className="bg-[#252627] p-4 rounded-2xl border-2 border-[#464748] min-w-[500px]">
+		<div className="bg-[#2526278c] p-4 rounded-2xl border-2 border-[#464748] min-w-[300px] sm:min-w-[500px]">
 			{/* Header */}
-			<div className="border-b-2 border-[#464748] mb-4 p-4">
-				<p className="text-white font-bold">Ask Spiritual AI</p>
+			<div className="border-b-2 border-[#464748] mb-4 pb-2">
+				<p className="text-white font-bold">Ask me any spiritual question...</p>
 			</div>
 
 			{/* Messages list */}
-			<div className="flex flex-col gap-4 mb-4 min-h-[300px] max-h-[600px] overflow-y-auto pr-2">
+			<div className="flex flex-col gap-4 mb-4 sm:min-[150px]: min-h-[300px] max-h-[300px] sm:max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2">
 				{messages.map((message) =>
 					message.speaker === "user" ? (
 						<UserMessage message={message.message} key={message.message} />
@@ -100,9 +101,7 @@ export function OpenAiInput() {
 						value={inputValue}
 						onChange={(e) => setInputValue(e.target.value)}
 						placeholder={
-							messages.length === 0
-								? "Ask me any spiritual question..."
-								: "How else can I help?"
+							messages.length === 0 ? "How can I help?" : "How else can I help?"
 						}
 						className="w-full bg-[#1E1F20] text-white p-4 pr-14 rounded-xl border border-[#464748] focus:outline-none focus:border-purple-500 placeholder-gray-500"
 					/>

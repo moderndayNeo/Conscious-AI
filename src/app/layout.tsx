@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ParticlesBackground from "@/components/ParticlesBackground";
+import Image from "next/image";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -29,6 +30,14 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<ParticlesBackground />
+
+				<Image
+					src="/assets/buddha-on-a-lake-landscape.png"
+					alt="Buddha on a lake"
+					className="w-full fixed -z-20"
+					fill
+				/>
+
 				{children}
 			</body>
 		</html>
