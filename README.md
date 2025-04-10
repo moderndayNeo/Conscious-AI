@@ -77,3 +77,13 @@ This prompt injection tests for:
 #### Let's see how it performed...
 
 TODO: Show gif using the prompt injection and the chatbot responding with the sanitised output.
+
+## Technical Decisions & Considerations
+
+Before passing the books into the vector db, we need to extract the raw text content of each book, so we can process the embeddings.
+
+Which raises the question; which book format works best?
+
+I can get the books in any format (.epub, .mobi, .pdf). The easiest format to extract raw text content is `.epub`, since an `.epub` file is essentially a ZIP archive of HTML pages.
+
+✅ This means you can extract each chapter/page, preserve the structure of the book, without getting caught up in layout-related code as you would with a `.mobi` or .`pdf` file.
