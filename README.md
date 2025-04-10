@@ -55,9 +55,52 @@ const completion = await openai.chat.completions.create({
 
 ## Retrieval Augmented Generation (RAG) and Vectors
 
-I stored 4 books on mindfulness in a Vector database.
+I stored 3 books on mindfulness in a Vector database.
 
-I then prompt the language model to use the books as context when answering questions.
+- 'The Mind Illuminated' by John Yates.
+- 'On Having No Head: Zen and the Rediscovery of the Obvious' by Douglas Harding.
+- 'Waking Up' by Sam Harris.
+
+```js
+export async function insertChunkIntoVectorDb({
+	chunk,
+	openai,
+	supabaseClient,
+}: {
+	chunk: string;
+	openai: OpenAI;
+	supabaseClient: SupabaseClient;
+}) {
+	const input = chunk.replace(/\n/g, " ");
+
+	const embeddingResponse = await openai.embeddings.create({
+		model: "text-embedding-ada-002",
+		input,
+	});
+
+	const [{ embedding }] = embeddingResponse.data;
+
+	const result = await supabaseClient.from("documents").insert({
+		content: chunk,
+		embedding,
+	});
+
+	return result;
+}
+```
+
+For the database, I used `pgvector` provided by `Supabase`. You can find the docs for `pgvector` [here](https://supabase.com/docs/guides/database/extensions/pgvector).
+
+Using a vector database allows us to perform ✨<u>similarity search</u>✨ on the vector database.
+
+So when you ask the chatbot `Give me an easy way to stay focused during meditation`, my app will perform the following steps:
+
+1. Transform that prompt into an embedding. An embedding is a vector of 1,536 numbers that stores the semantic meaning of the prompt. This means that the vector database will look for book sections that talk about `meditation`, `staying focused` and `easy way`. This is the "Retrieval" part of "Retrieval Augmented Generation".
+2. The vector database then returns the relevant book sections to support our answer.
+3. With the relevant book sections, we perform a second query. We pass the original prompt `Give me an easy way to stay focused during meditation` along with the relevant book sections to the LLM. In this project we are using OpenAI's `gpt-4o-mini` model.
+4. The LLM then gives our users a better answer, supported by the context we fetched from the vector database.
+
+TODO show example of better answer
 
 ### Testing the guardrails
 
