@@ -12,10 +12,9 @@ export function useLocalStorage<T>(key: string): T {
 		if (typeof window !== "undefined") {
 			// Try to get the item from localStorage
 			const item = window.localStorage.getItem(key);
-			// Parse the item if it exists, otherwise return an empty array
+			// Parse the item if it exists, otherwise return undefined
 			return item ? JSON.parse(item) : undefined;
 		}
-		// Return empty array for server-side rendering
 		return undefined;
 	});
 
