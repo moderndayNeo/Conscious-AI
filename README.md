@@ -10,11 +10,11 @@
 
 ## Table of Contents
 
-- [Introduction](#conscious-ai)
-- [Live Demo](#conscious-ai)
+- [Introduction](#consciousai)
+- [Live Demo](#consciousai)
 - [Technologies Used](#technologies-used)
-- [Custom Configuration](#custom-configuration)
 - [Retrieval Augmented Generation (RAG) and Vectors](#retrieval-augmented-generation-rag-and-vectors)
+- [Prompt Guardrails](#using-guardrails-against-prompt-attacks)
 - [Technical Decisions](#technical-decisions)
 
 ---
@@ -73,7 +73,7 @@ For the database, I used `pgvector` provided by `Supabase`. You can find the doc
 
 And here you can see the embedded chunks in the vector DB.
 
-<img src="./screenshots/embeddings-in-pgvector-db.png" width="700">
+<img src="https://private-user-images.githubusercontent.com/57966028/432501643-5e89c985-5330-48d5-8251-5763f4e5531c.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTk2MzIsIm5iZiI6MTc0NDMxOTMzMiwicGF0aCI6Ii81Nzk2NjAyOC80MzI1MDE2NDMtNWU4OWM5ODUtNTMzMC00OGQ1LTgyNTEtNTc2M2Y0ZTU1MzFjLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIxMDg1MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTIyMWQ1OTk2N2Y2YTEwN2VmMGZkNzMxZjQ0MmQzZTk4M2U4ODYxMjEzYjFmNzVjNTIzNWZhZjdkYmJhYzdiZTMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.R945qmcadFCxHbSa2aGBKBrK3tQ8C99ah-FrftNEqr4" width="700">
 
 ### Here's How A Vector Database Can <u>Supercharge</u> Your AI Responses
 
@@ -87,7 +87,7 @@ So when you ask the chatbot `Give me an easy way to stay focused during meditati
 2. The vector database then returns the relevant book sections that support our answer.
 
    It does so using a <i>similarity search</i>. Here's the SQL code to setup the similarity-search function in the Supabase DB:
-   <img src="./screenshots/sql-function-for-similarity-search.png" width="500">
+   <img src="https://private-user-images.githubusercontent.com/57966028/432501642-a53b2dec-b860-445a-9098-eefd3afa8374.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTk2MzIsIm5iZiI6MTc0NDMxOTMzMiwicGF0aCI6Ii81Nzk2NjAyOC80MzI1MDE2NDItYTUzYjJkZWMtYjg2MC00NDVhLTkwOTgtZWVmZDNhZmE4Mzc0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIxMDg1MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTgzNTg0NjkxZjY5YTE4Y2YwOGQ0OTEyMzkxYjlkMDM3M2I3N2UzMjMzMjFjZTUwNjJiZWZjMzhlYTg3ODRmNTUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.rMPgVyg-4PysZ4Db-teX23KDmE-98LUKFOMZ32C60jg" width="500">
 
 3. With the relevant book sections, we perform a second operation.
 
@@ -147,7 +147,7 @@ I pass in the jailbreak prompt:
 
 ![gif](https://private-user-images.githubusercontent.com/57966028/432483151-29f44945-295f-4e08-8e66-c6757b4c1154.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTYxNDEsIm5iZiI6MTc0NDMxNTg0MSwicGF0aCI6Ii81Nzk2NjAyOC80MzI0ODMxNTEtMjlmNDQ5NDUtMjk1Zi00ZTA4LThlNjYtYzY3NTdiNGMxMTU0LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIwMTA0MVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTg4Y2IwODg2OGZhZTI5YjgwOTU2MWJjZDk3M2I5M2E3NDU2YTFiNTI3NmNiNDIyZTZlYzNmYmNhOTRmY2FhZTAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.XP67IuTG8vH-GDvjn9XDCbRAV1OAMnsNokAj6MQQrn4)
 
-And ConsciousAI declines the malicious request.
+✅ And ConsciousAI declines the malicious request.
 
 ---
 
