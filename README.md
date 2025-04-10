@@ -1,4 +1,4 @@
-# Conscious AI
+# ConsciousAI
 
 <img src="https://raw.githubusercontent.com/moderndayNeo/the-gram/refs/heads/master/public/media/shield.svg">
 
@@ -8,13 +8,24 @@
 
 ![gif](https://private-user-images.githubusercontent.com/57966028/432497798-3cbc15b8-a978-4310-96bd-df43d9eb4723.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTg3NjAsIm5iZiI6MTc0NDMxODQ2MCwicGF0aCI6Ii81Nzk2NjAyOC80MzI0OTc3OTgtM2NiYzE1YjgtYTk3OC00MzEwLTk2YmQtZGY0M2Q5ZWI0NzIzLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIwNTQyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTQyZjNhZGNjOGEwY2E1M2UzZWIzY2Q1N2JlNTY0OGM3NjU2NDBhZWIxYzU3NDU3Y2M2NTBiOWNmNDJmMDI3Y2EmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.2eJgDu_HCd93QsdVqz32COvljtxvg0CsqjlarJQ7yxs)
 
-TODO Insert a table of contents.
+## Table of Contents
+
+- [Introduction](#conscious-ai)
+- [Live Demo](#conscious-ai)
+- [Technologies Used](#technologies-used)
+- [Custom Configuration](#custom-configuration)
+- [Retrieval Augmented Generation (RAG) and Vectors](#retrieval-augmented-generation-rag-and-vectors)
+- [Technical Decisions](#technical-decisions)
+
+---
 
 ## Technologies Used
 
 |                                                                                                                                                        Next.js (v15.2.4)                                                                                                                                                         |                                    React.js (v19.0.0)                                    |                                 OpenAI API (v4.92.1)                                  |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: |
 | <img src="https://camo.githubusercontent.com/c3635f27439ecdbf20e3cbf969c156f4040f10a0c8c836cf307d916dd8f806d4/68747470733a2f2f6173736574732e76657263656c2e636f6d2f696d6167652f75706c6f61642f76313636323133303535392f6e6578746a732f49636f6e5f6461726b5f6261636b67726f756e642e706e67" alt="Next.js logo" width="32" height="32" /> | <img src="https://reactjs.org/favicon.ico" alt="React.js logo" width="32" height="32" /> | <img src="https://openai.com/favicon.ico" alt="OpenAI logo" width="32" height="32" /> |
+
+TODO add a column for tailwindCSS.
 
 ## Custom Configuration
 
@@ -26,7 +37,7 @@ I stored these 3 books on mindfulness in a Vector database:
 - 'On Having No Head: Zen and the Rediscovery of the Obvious' by Douglas Harding.
 - 'Waking Up' by Sam Harris.
 
-Then each time you ask Conscious AI about spirituality, it uses these books as the context for its answer!
+Then each time you ask ConsciousAI about spirituality, it uses these books as the context for its answer!
 
 <b> Embedding Book Chunks And Inserting Into Vector Database: </b>
 
@@ -141,6 +152,8 @@ And ConsciousAI declines the malicious request.
 ---
 
 ## Technical Decisions & Considerations
+
+<a name="technical-decisions"></a>
 
 Before passing the books into the vector db, we need to extract the raw text content of each book, so we can process the embeddings.
 
