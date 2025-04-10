@@ -4,9 +4,13 @@
 
 ### ⚡️ Click HERE To Use ConsciousAI: TODO Add a live link
 
-## Is AI Conscious? Ask it… and see what answers arise.
+## Is this AI Conscious? Ask it… and see what answers arise.
 
 ![gif](https://private-user-images.githubusercontent.com/57966028/432497798-3cbc15b8-a978-4310-96bd-df43d9eb4723.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTg3NjAsIm5iZiI6MTc0NDMxODQ2MCwicGF0aCI6Ii81Nzk2NjAyOC80MzI0OTc3OTgtM2NiYzE1YjgtYTk3OC00MzEwLTk2YmQtZGY0M2Q5ZWI0NzIzLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIwNTQyMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTQyZjNhZGNjOGEwY2E1M2UzZWIzY2Q1N2JlNTY0OGM3NjU2NDBhZWIxYzU3NDU3Y2M2NTBiOWNmNDJmMDI3Y2EmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.2eJgDu_HCd93QsdVqz32COvljtxvg0CsqjlarJQ7yxs)
+
+## Outline
+
+ConsciousAI is a spirituality-focused AI chatbot with prompts enhanced by Retrieval Augmented Generation (RAG). It is built using Next.js, React.js, TypeScript, Tailwind CSS, the OpenAI API, and PGVector for the vector database.
 
 ## Table of Contents
 
