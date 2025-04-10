@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserMessage } from "./UserMessage";
 import { AssistantMessage } from "./AssistantMessage";
 import { sendChatMessage } from "@/utils/api";
@@ -26,13 +26,23 @@ export function AiChatInput() {
 			setError(null);
 
 			try {
-				const assistantResponse = await sendChatMessage(inputValue.trim());
-				// Store the updated messages in localStorage
-				const updatedMessages = [
+				const withUserMessage = [
 					...messages,
 					{ speaker: "user", message: inputValue.trim() },
+				];
+
+				window.localStorage.setItem(
+					"messages",
+					JSON.stringify(withUserMessage),
+				);
+				setMessages(withUserMessage as Message[]);
+
+				const assistantResponse = await sendChatMessage(inputValue.trim());
+				const updatedMessages = [
+					...withUserMessage,
 					{ speaker: "assistant", message: assistantResponse },
 				];
+				// Store the message history in localStorage
 				window.localStorage.setItem(
 					"messages",
 					JSON.stringify(updatedMessages),
@@ -48,6 +58,14 @@ export function AiChatInput() {
 		}
 	};
 
+	useEffect(() => {
+		// Scroll the messages section to the bottom
+		const messagesContainer = document.querySelector(".messages-container");
+		if (messagesContainer) {
+			messagesContainer.scrollTop = messagesContainer.scrollHeight;
+		}
+	}, [messages, isLoading]);
+
 	return (
 		<div className="bg-[#2526278c] p-4 rounded-2xl border-2 border-[#464748] min-w-[300px] sm:min-w-[500px]">
 			{/* Header */}
@@ -56,7 +74,7 @@ export function AiChatInput() {
 			</div>
 
 			{/* Messages list */}
-			<div className="flex flex-col gap-4 mb-4 sm:min-[150px]: min-h-[300px] max-h-[300px] sm:max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2">
+			<div className="messages-container flex flex-col gap-4 mb-4 sm:min-[150px]: min-h-[300px] max-h-[300px] sm:max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2">
 				{messages.map((message) =>
 					message.speaker === "user" ? (
 						<UserMessage message={message.message} key={message.message} />
