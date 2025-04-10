@@ -66,7 +66,7 @@ export function AiChatInput() {
 				)}
 				{error && <div className="text-red-500 self-center">{error}</div>}
 				{isLoading && (
-					<div className="self-center">
+					<div className="self-center flex flex-col items-center gap-2">
 						<p className="text-white">
 							Interesting question. Let me ruminate on that for a moment...
 						</p>
