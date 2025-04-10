@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Spiritual AI",
+	title: "Conscious AI",
 	description: "Is AI Conscious? Ask and you will find out for yourself!",
 };
 
@@ -45,6 +45,30 @@ export default function RootLayout({
 				/>
 
 				{children}
+
+				<footer className="flex flex-col items-center justify-center mt-8 p-4">
+					<p className="text-sm text-gray-500">
+						ConsciousAI is created by Adam Zdrzalka.
+					</p>
+					<div className="flex gap-4 mt-2">
+						<a
+							href="https://github.com/moderndayNeo/Conscious-AI"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-blue-500 hover:underline"
+						>
+							Github
+						</a>
+						<a
+							href="https://www.linkedin.com/in/adamzdrzalka"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-blue-500 hover:underline"
+						>
+							LinkedIn
+						</a>
+					</div>
+				</footer>
 			</body>
 		</html>
 	);
