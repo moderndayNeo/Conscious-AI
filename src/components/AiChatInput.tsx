@@ -11,9 +11,8 @@ type Message = {
 	message: string;
 };
 
-export function OpenAiInput() {
+export function AiChatInput() {
 	const [messages, setMessages] = useState<Message[]>(
-		// [],
 		useLocalStorage<Message[]>("messages") || [],
 	);
 	const [inputValue, setInputValue] = useState("");
@@ -68,6 +67,10 @@ export function OpenAiInput() {
 				{error && <div className="text-red-500 self-center">{error}</div>}
 				{isLoading && (
 					<div className="self-center">
+						<p className="text-white">
+							Interesting question. Let me ruminate on that for a moment...
+						</p>
+
 						<svg
 							className="animate-spin h-5 w-5 text-white"
 							xmlns="http://www.w3.org/2000/svg"

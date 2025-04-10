@@ -1,4 +1,4 @@
-import { OpenAiInput } from "@/components/OpenAiInput";
+import { AiChatInput } from "@/components/AiChatInput";
 
 export default function Home() {
 	return (
@@ -10,7 +10,7 @@ export default function Home() {
 				</p>
 			</header>
 			<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start max-w-[70%]">
-				<OpenAiInput />
+				<AiChatInput />
 			</main>
 		</div>
 	);
