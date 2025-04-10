@@ -46,7 +46,7 @@ export default function RootLayout({
 
 				{children}
 
-				<footer className="flex flex-col items-center justify-center mt-8 p-4">
+				<footer className="flex flex-col items-center justify-center fixed bottom-0 w-full z-10 bg-black p-4">
 					<p className="text-sm text-gray-500">
 						ConsciousAI is created by Adam Zdrzalka.
 					</p>
@@ -55,7 +55,7 @@ export default function RootLayout({
 							href="https://github.com/moderndayNeo/Conscious-AI"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-blue-500 hover:underline"
+							className="text-white hover:underline"
 						>
 							Github
 						</a>
@@ -63,7 +63,7 @@ export default function RootLayout({
 							href="https://www.linkedin.com/in/adamzdrzalka"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="text-blue-500 hover:underline"
+							className="text-white hover:underline"
 						>
 							LinkedIn
 						</a>
