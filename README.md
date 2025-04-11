@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/moderndayNeo/the-gram/refs/heads/master/public/media/shield.svg">
 
-### [👉 Click HERE To Use ConsciousAI](https://conscious-ai-eta.vercel.app/)
+### <a href="https://conscious-ai-eta.vercel.app/" target="_blank">👉 Click HERE To Use ConsciousAI</a>
 
 ## Is this AI Conscious? Ask it… and see what answers arise.
 
@@ -71,7 +71,7 @@ export async function insertChunkIntoVectorDb({
 }
 ```
 
-For the database, I used `pgvector` provided by `Supabase`. You can find the docs for `pgvector` [here](https://supabase.com/docs/guides/database/extensions/pgvector).
+For the database, I used `pgvector` provided by `Supabase`. You can find the docs for `pgvector` <a href="https://supabase.com/docs/guides/database/extensions/pgvector" target="_blank">here</a>.
 
 And here you can see the embedded chunks in the vector DB.
 
