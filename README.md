@@ -10,7 +10,7 @@
 
 ## Outline
 
-ConsciousAI is a spirituality-focused AI chatbot with prompts enhanced by Retrieval Augmented Generation (RAG). It is built using Next.js, React.js, TypeScript, Tailwind CSS, the OpenAI API, and PGVector for the vector database.
+ConsciousAI is a spirituality-focused AI chatbot with prompts enhanced by Retrieval Augmented Generation (RAG). It's built using Next.js, React.js, TypeScript, Tailwind CSS, the OpenAI API, and PGVector for the vector database.
 
 ## Table of Contents
 
@@ -89,6 +89,7 @@ So when you ask the chatbot `Give me an easy way to stay focused during meditati
 2. The vector database then returns the relevant book sections that support our answer.
 
    It does so using a <i>similarity search</i>. Here's the SQL code to setup the similarity-search function in the Supabase DB:
+
    <img src="https://private-user-images.githubusercontent.com/57966028/432501642-a53b2dec-b860-445a-9098-eefd3afa8374.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQzMTk2MzIsIm5iZiI6MTc0NDMxOTMzMiwicGF0aCI6Ii81Nzk2NjAyOC80MzI1MDE2NDItYTUzYjJkZWMtYjg2MC00NDVhLTkwOTgtZWVmZDNhZmE4Mzc0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDIxMDg1MlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTgzNTg0NjkxZjY5YTE4Y2YwOGQ0OTEyMzkxYjlkMDM3M2I3N2UzMjMzMjFjZTUwNjJiZWZjMzhlYTg3ODRmNTUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.rMPgVyg-4PysZ4Db-teX23KDmE-98LUKFOMZ32C60jg" width="500">
 
 3. With the relevant book sections, we perform a second operation.
@@ -159,7 +160,7 @@ I pass in the jailbreak prompt:
 
 Before passing the books into the vector db, we need to extract the raw text content of each book, so we can process the embeddings.
 
-This raises the question; which book format works best?
+📘 This raises the question; which book format works best?
 
 I can get the books in any format (`.epub`, `.mobi`, `.pdf`), but the easiest format to extract raw text content is `.epub`, since an `.epub` file is essentially a ZIP archive of HTML pages.
 
