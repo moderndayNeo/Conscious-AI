@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ParticlesBackground from "@/components/ParticlesBackground";
 import Image from "next/image";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -45,6 +46,7 @@ export default function RootLayout({
 				/>
 
 				{children}
+				<Analytics />
 
 				<footer className="flex flex-col items-center justify-center fixed bottom-0 w-full z-10 bg-black p-4">
 					<p className="text-sm text-gray-500">
