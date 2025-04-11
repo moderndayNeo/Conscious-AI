@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/moderndayNeo/the-gram/refs/heads/master/public/media/shield.svg">
 
-### ⚡️ Click HERE To Use ConsciousAI: TODO Add a live link
+### [👉 Click HERE To Use ConsciousAI](https://conscious-ai-eta.vercel.app/)
 
 ## Is this AI Conscious? Ask it… and see what answers arise.
 
