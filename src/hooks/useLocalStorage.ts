@@ -20,7 +20,7 @@ export function useLocalStorage<T>(key: string): T {
 
 	// Update localStorage when the value changes
 	useEffect(() => {
-		if (typeof window !== "undefined") {
+		if (value && typeof window !== "undefined") {
 			window.localStorage.setItem(key, JSON.stringify(value));
 			setValue(value);
 		}
