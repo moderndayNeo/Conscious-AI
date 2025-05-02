@@ -61,7 +61,7 @@ ${semanticContext}
 </context>
 `;
 
-		const completion = await openai.chat.completions.create({
+		const stream = await openai.chat.completions.create({
 			messages: [
 				{
 					role: "developer",
@@ -75,10 +75,37 @@ ${semanticContext}
 				{ role: "user", content: message },
 			],
 			model: "gpt-4o-mini",
+			stream: true,
 		});
 
-		return NextResponse.json({
-			response: completion.choices[0].message.content,
+		// Create a streaming response
+		const encoder = new TextEncoder();
+		const customStream = new ReadableStream({
+			async start(controller) {
+				try {
+					// Process each chunk from the OpenAI stream
+					for await (const chunk of stream) {
+						// Get the content (delta) from the chunk
+						const content = chunk.choices[0]?.delta?.content || "";
+						if (content) {
+							// Convert the content to a Uint8Array and enqueue it
+							controller.enqueue(encoder.encode(content));
+						}
+					}
+					controller.close();
+				} catch (error) {
+					console.error("Error while streaming:", error);
+					controller.error(error);
+				}
+			},
+		});
+
+		// Return the stream as a Response with text/plain content type
+		return new Response(customStream, {
+			headers: {
+				"Content-Type": "text/plain; charset=utf-8",
+				"Cache-Control": "no-cache",
+			},
 		});
 	} catch (error) {
 		console.error("Error processing chat request:", error);

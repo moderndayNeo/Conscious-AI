@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { UserMessage } from "./UserMessage";
 import { AssistantMessage } from "./AssistantMessage";
-import { sendChatMessage } from "@/utils/api";
+import { streamChatMessage } from "@/utils/api";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 type Message = {
@@ -18,43 +18,65 @@ export function AiChatInput() {
 	const [inputValue, setInputValue] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [streamingMessage, setStreamingMessage] = useState("");
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (inputValue.trim()) {
 			setIsLoading(true);
 			setError(null);
+			setStreamingMessage(""); // Reset streaming message
 
 			try {
-				const withUserMessage = [
+				const userMessage = inputValue.trim();
+				const withUserMessage: Message[] = [
 					...messages,
-					{ speaker: "user", message: inputValue.trim() },
+					{ speaker: "user", message: userMessage },
 				];
 
+				// Update messages with the new user message
 				window.localStorage.setItem(
 					"messages",
 					JSON.stringify(withUserMessage),
 				);
-				setMessages(withUserMessage as Message[]);
+				setMessages(withUserMessage);
+				setInputValue(""); // Clear input right away
 
-				const assistantResponse = await sendChatMessage(inputValue.trim());
-				const updatedMessages = [
+				// Add an empty assistant message that will be streamed
+				const withAssistantMessage: Message[] = [
 					...withUserMessage,
-					{ speaker: "assistant", message: assistantResponse },
+					{ speaker: "assistant", message: "" },
 				];
-				// Store the message history in localStorage
-				window.localStorage.setItem(
-					"messages",
-					JSON.stringify(updatedMessages),
-				);
-				setMessages(updatedMessages as Message[]);
+				setMessages(withAssistantMessage);
+
+				// Start streaming the response
+				await streamChatMessage(userMessage, (chunk) => {
+					setStreamingMessage((prev) => prev + chunk);
+
+					// Update the assistant's message in real-time
+					setMessages((currentMessages) => {
+						const updatedMessages = [...currentMessages];
+						updatedMessages[updatedMessages.length - 1] = {
+							speaker: "assistant",
+							message:
+								updatedMessages[updatedMessages.length - 1].message + chunk,
+						};
+						return updatedMessages;
+					});
+				});
+
+				// When streaming completes, save the final state to localStorage
+				const finalMessages: Message[] = [
+					...withUserMessage,
+					{ speaker: "assistant", message: streamingMessage },
+				];
+				window.localStorage.setItem("messages", JSON.stringify(finalMessages));
 			} catch (e) {
 				console.error("Error:", e);
 				setError("Sorry, there was an error processing your request.");
 			}
 
 			setIsLoading(false);
-			setInputValue("");
 		}
 	};
 
@@ -64,7 +86,7 @@ export function AiChatInput() {
 		if (messagesContainer) {
 			messagesContainer.scrollTop = messagesContainer.scrollHeight;
 		}
-	}, [messages, isLoading]);
+	}, [messages, isLoading, streamingMessage]); // Add streamingMessage to dependencies
 
 	return (
 		<section className="bg-[#2526278c] p-4 rounded-2xl border-2 border-[#464748] lg:min-w-200 w-[95%]">
@@ -75,15 +97,15 @@ export function AiChatInput() {
 
 			{/* Messages list */}
 			<div className="messages-container flex flex-col gap-4 mb-4 sm:min-[150px]: min-h-[300px] max-h-[40vh] sm:max-h-[400px] md:max-h-[500px] overflow-y-auto pr-2">
-				{messages.map((message) =>
+				{messages.map((message, index) =>
 					message.speaker === "user" ? (
-						<UserMessage message={message.message} key={message.message} />
+						<UserMessage message={message.message} key={index} />
 					) : (
-						<AssistantMessage message={message.message} key={message.message} />
+						<AssistantMessage message={message.message} key={index} />
 					),
 				)}
 				{error && <div className="text-red-500 self-center">{error}</div>}
-				{isLoading && (
+				{isLoading && !streamingMessage && (
 					<div className="self-center flex flex-col items-center gap-2">
 						<p className="text-white">
 							Interesting question. Let me ruminate on that for a moment...
@@ -128,10 +150,10 @@ export function AiChatInput() {
 					/>
 					<button
 						type="submit"
-						disabled={!inputValue.trim()}
+						disabled={!inputValue.trim() || isLoading}
 						className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 transition-colors
              ${
-								inputValue.trim()
+								inputValue.trim() && !isLoading
 									? "bg-[#7C3AED] hover:bg-[#6D28D9] cursor-pointer"
 									: "bg-gray-600 cursor-not-allowed"
 							}`}
@@ -143,7 +165,7 @@ export function AiChatInput() {
 							fill="none"
 							xmlns="http://www.w3.org/2000/svg"
 							className={`transform -rotate-90 ${
-								inputValue.trim() ? "text-white" : "text-gray-400"
+								inputValue.trim() && !isLoading ? "text-white" : "text-gray-400"
 							}`}
 						>
 							<path
