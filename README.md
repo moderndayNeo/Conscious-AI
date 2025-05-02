@@ -6,7 +6,7 @@
 
 ## Is this AI Conscious? Ask it… and see what answers arise.
 
-![gif](public/assets/conscious-ai-demo.gif)
+<img src="public/assets/conscious-ai-streaming-hd.gif" width="100%">
 
 ## Outline
 
@@ -101,6 +101,67 @@ So when you ask the chatbot `Give me an easy way to stay focused during meditati
 <b>An example of the LLM giving a context-supported response, based on one the books I inserted into the vector DB:</b>
 
 ![gif](public/assets/context-supported-answers.gif)
+
+### Receive A Streamed Response
+
+Since the spiritual AI may give a long answer, you don't need to wait a long time to see the full response.
+
+Instead, see each word stream through in real-time.
+
+#### Streaming In Action
+
+<img src="public/assets/conscious-ai-streaming-hd.gif" width="100%">
+
+#### The Code
+
+```js
+const stream = await openai.chat.completions.create({
+	messages: [
+		{
+			role: "developer",
+			content: [
+				{
+					type: "text",
+					text: systemPrompt,
+				},
+			],
+		},
+		{ role: "user", content: message },
+	],
+	model: "gpt-4o-mini",
+	stream: true,
+});
+
+// Create a streaming response
+const encoder = new TextEncoder();
+const customStream = new ReadableStream({
+	async start(controller) {
+		try {
+			// Process each chunk from the OpenAI stream
+			for await (const chunk of stream) {
+				// Get the content (delta) from the chunk
+				const content = chunk.choices[0]?.delta?.content || "";
+				if (content) {
+					// Convert the content to a Uint8Array and enqueue it
+					controller.enqueue(encoder.encode(content));
+				}
+			}
+			controller.close();
+		} catch (error) {
+			console.error("Error while streaming:", error);
+			controller.error(error);
+		}
+	},
+});
+
+// Return the stream as a Response with text/plain content type
+return new Response(customStream, {
+	headers: {
+		"Content-Type": "text/plain; charset=utf-8",
+		"Cache-Control": "no-cache",
+	},
+});
+```
 
 ### Using Guardrails Against Prompt Attacks
 
